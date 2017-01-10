@@ -2,7 +2,7 @@ name := "template-api-rest-java-playframework"
 
 version := "1.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava,PlayEbean)
 
 scalaVersion := "2.11.6"
 

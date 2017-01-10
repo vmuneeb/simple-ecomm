@@ -3,15 +3,21 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.EmployeeController.index()
+GET     /shops                           controllers.CommonController.getShops()
 
-# Routes API Rest
-GET     /employees                  controllers.EmployeeController.list(page: Integer ?= 1, size: Integer ?= 3)
-GET     /employees/$id<[0-9]+>      controllers.EmployeeController.get(id: Integer)
-POST    /employees                  controllers.EmployeeController.create()
-PUT     /employees                  controllers.EmployeeController.update()
-PATCH   /employees                  controllers.EmployeeController.update()
-DELETE  /employees/$id<[0-9]+>      controllers.EmployeeController.delete(id: Integer)
+GET     /navigation_drawer               controllers.CommonController.navigation()
+GET     /banners               controllers.CommonController.banners()
+
+GET     /products               controllers.ProductController.getProducts()
+
+GET     /products/:id               controllers.ProductController.getProduct(id:String)
+
+
+POST /login/email                 controllers.UserController.loginUser()
+
+POST /users/register                 controllers.UserController.registerUser()
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
