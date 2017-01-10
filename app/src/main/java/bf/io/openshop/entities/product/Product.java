@@ -24,6 +24,16 @@ public class Product {
     @SerializedName("discount_price_formatted")
     private String discountPriceFormatted;
     private long category;
+    private int quantity = 1;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     private String currency;
     private String code;
     private String description;

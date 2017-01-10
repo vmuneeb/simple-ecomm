@@ -122,7 +122,9 @@
                                 android:textColor="@color/textIconColorPrimary"
                                 android:textSize="15sp"
                                 tools:text="-50%"/>
+
                         </RelativeLayout>
+
                     </LinearLayout>
 
                     <View
@@ -132,34 +134,60 @@
                         android:layout_marginTop="@dimen/base_margin_vertical_half"
                         android:background="@color/line_light_grey"/>
 
+
                     <!-- Product size and color-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_gravity="center"
                         android:paddingLeft="@dimen/base_margin_horizontal"
                         android:paddingRight="@dimen/base_margin_horizontal">
+
+
+                        <TextView
+                            android:id="@+id/product_quantity_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="8dp"
+                            android:textColor="@color/textBlack"
+                            android:textSize="15sp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:text="Select Quantity" />
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:maxLength="4"
+                            android:layout_gravity="center_horizontal"
+                            android:inputType="number"
+                            android:background="@drawable/spinner_background_black_baseline"
+                            android:textColor="@color/textSecondary"
+                            android:layout_weight="1"/>
 
                         <Spinner
                             android:id="@+id/product_color_spinner"
                             android:layout_width="0dp"
+                            android:visibility="invisible"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
-                            android:layout_weight="1"
+                            android:layout_weight="0"
+                            android:background="@drawable/spinner_background_black_baseline"
+                            android:paddingBottom="8dp"
+                            android:spinnerMode="dialog" />
+
+                        <Spinner
+                            android:id="@+id/product_size_spinner"
+                            android:layout_width="0dp"
+                            android:visibility="invisible"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
                             android:background="@drawable/spinner_background_black_baseline"
                             android:gravity="start"
                             android:paddingBottom="8dp"
                             android:spinnerMode="dialog"/>
 
-                        <Spinner
-                            android:id="@+id/product_size_spinner"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/spinner_background_black_baseline"
-                            android:gravity="start"
-                            android:paddingBottom="8dp"
-                            android:spinnerMode="dialog"/>
                     </LinearLayout>
 
                     <!-- Add to cart button with progress bar-->
@@ -244,31 +272,31 @@
                             android:fontFamily="sans-serif-light"
                             android:textSize="14sp"/>
 
-                        <Button
-                            android:id="@+id/product_send_to_a_friend"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/button_facebook_style"
-                            android:drawableLeft="@drawable/facebook_icon"
-                            android:drawablePadding="3dp"
-                            android:drawableStart="@drawable/facebook_icon"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/base_margin_horizontal"
-                            android:paddingRight="@dimen/base_margin_horizontal"
-                            android:singleLine="true"
-                            android:text="@string/SEND_TO_A_FRIEND"
-                            android:textColor="@color/textIconColorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                        <!--<Button-->
+                            <!--android:id="@+id/product_send_to_a_friend"-->
+                            <!--style="?android:attr/borderlessButtonStyle"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@drawable/button_facebook_style"-->
+                            <!--android:drawableLeft="@drawable/facebook_icon"-->
+                            <!--android:drawablePadding="3dp"-->
+                            <!--android:drawableStart="@drawable/facebook_icon"-->
+                            <!--android:gravity="center"-->
+                            <!--android:paddingLeft="@dimen/base_margin_horizontal"-->
+                            <!--android:paddingRight="@dimen/base_margin_horizontal"-->
+                            <!--android:singleLine="true"-->
+                            <!--android:text="@string/SEND_TO_A_FRIEND"-->
+                            <!--android:textColor="@color/textIconColorPrimary"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:textStyle="bold"/>-->
 
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/base_margin_vertical"
-                            android:text="@string/RECOMMENDED"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                        <!--<TextView-->
+                            <!--android:layout_width="fill_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="@dimen/base_margin_vertical"-->
+                            <!--android:text="@string/RECOMMENDED"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:textStyle="bold"/>-->
                     </LinearLayout>
 
                     <!-- Recycler height set in code -->

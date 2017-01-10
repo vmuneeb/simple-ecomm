@@ -1,10 +1,8 @@
 package bf.io.openshop.ux.fragments;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -20,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -31,8 +28,6 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.MessageDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +46,6 @@ import bf.io.openshop.api.JsonRequest;
 import bf.io.openshop.entities.User;
 import bf.io.openshop.entities.product.Product;
 import bf.io.openshop.entities.product.ProductColor;
-import bf.io.openshop.entities.product.ProductSize;
 import bf.io.openshop.entities.product.ProductVariant;
 import bf.io.openshop.interfaces.LoginDialogInterface;
 import bf.io.openshop.interfaces.ProductImagesRecyclerInterface;
@@ -94,7 +88,6 @@ public class ProductFragment extends Fragment {
     private TextView productPriceTv;
     private TextView productInfoTv;
     private TextView productPriceDiscountPercentTv;
-
     /**
      * Refers to the displayed product.
      */
@@ -108,6 +101,7 @@ public class ProductFragment extends Fragment {
      * Spinner offering all available product colors.
      */
     private Spinner colorSpinner;
+    private Spinner quantitySpinner;
 
     private SizeVariantSpinnerAdapter sizeVariantSpinnerAdapter;
     private ArrayList<String> productImagesUrls;
@@ -160,6 +154,7 @@ public class ProductFragment extends Fragment {
         layoutEmpty = view.findViewById(R.id.product_empty_layout);
         contentScrollLayout = (ScrollView) view.findViewById(R.id.product_scroll_layout);
 
+
         productNameTv = (TextView) view.findViewById(R.id.product_name);
         productPriceDiscountPercentTv = (TextView) view.findViewById(R.id.product_price_discount_percent);
         productPriceDiscountTv = (TextView) view.findViewById(R.id.product_price_discount);
@@ -184,6 +179,7 @@ public class ProductFragment extends Fragment {
      * @param view fragment base view.
      */
     private void prepareSizeSpinner(View view) {
+
         Spinner sizeSpinner = (Spinner) view.findViewById(R.id.product_size_spinner);
         sizeVariantSpinnerAdapter = new SizeVariantSpinnerAdapter(getActivity());
         sizeVariantSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -232,40 +228,41 @@ public class ProductFragment extends Fragment {
             }
         });
 
-        Button sendToFriendBtn = (Button) view.findViewById(R.id.product_send_to_a_friend);
-        sendToFriendBtn.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
-                if (MyApplication.getInstance().isDataConnected()) {
-                    Timber.d("FragmentProductDetail share link clicked");
-                    // send message with prepared content
-                    try {
-                        MessageDialog messageDialog = new MessageDialog(getActivity());
-                        if (MessageDialog.canShow(ShareLinkContent.class)) {
-                            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                                    .setContentTitle(product.getName())
-                                    .setContentDescription(product.getDescription())
-                                    .setContentUrl(Uri.parse(product.getUrl()))
-                                    .setImageUrl(Uri.parse(product.getMainImage()))
-                                    .build();
-                            messageDialog.show(linkContent);
-                        } else {
-                            Timber.e("FragmentProductDetail - APP is NOT installed");
-                            final String appPackageName = "com.facebook.orca"; // getPackageName() from Context or Activity object
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
-                            }
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e, "Create share dialog exception");
-                    }
-                } else {
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_NO_NETWORK, null, MsgUtils.ToastLength.SHORT);
-                }
-            }
-        });
+        //TODO removed by me
+//        Button sendToFriendBtn = (Button) view.findViewById(R.id.product_send_to_a_friend);
+//        sendToFriendBtn.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View v) {
+//                if (MyApplication.getInstance().isDataConnected()) {
+//                    Timber.d("FragmentProductDetail share link clicked");
+//                    // send message with prepared content
+//                    try {
+//                        MessageDialog messageDialog = new MessageDialog(getActivity());
+//                        if (MessageDialog.canShow(ShareLinkContent.class)) {
+//                            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+//                                    .setContentTitle(product.getName())
+//                                    .setContentDescription(product.getDescription())
+//                                    .setContentUrl(Uri.parse(product.getUrl()))
+//                                    .setImageUrl(Uri.parse(product.getMainImage()))
+//                                    .build();
+//                            messageDialog.show(linkContent);
+//                        } else {
+//                            Timber.e("FragmentProductDetail - APP is NOT installed");
+//                            final String appPackageName = "com.facebook.orca"; // getPackageName() from Context or Activity object
+//                            try {
+//                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+//                            } catch (android.content.ActivityNotFoundException anfe) {
+//                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        Timber.e(e, "Create share dialog exception");
+//                    }
+//                } else {
+//                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_NO_NETWORK, null, MsgUtils.ToastLength.SHORT);
+//                }
+//            }
+//        });
     }
 
     /**
@@ -568,6 +565,7 @@ public class ProductFragment extends Fragment {
             this.product = product;
             List<ProductColor> productColors = new ArrayList<>();
 
+
             for (ProductVariant pv : product.getVariants()) {
                 ProductColor pac = pv.getColor();
                 if (!productColors.contains(pac)) {
@@ -632,10 +630,10 @@ public class ProductFragment extends Fragment {
             }
 
             // Show sizes
-            if (variantSizeArrayList.size() > 1) {
+/*            if (variantSizeArrayList.size() > 1) {
                 variantSizeArrayList.add(0, new ProductVariant(CONST.DEFAULT_EMPTY_ID, new ProductSize(CONST.DEFAULT_EMPTY_ID, CONST.DEFAULT_EMPTY_ID, getString(R.string.Select_size))));
-            }
-            sizeVariantSpinnerAdapter.setProductSizeList(variantSizeArrayList);
+            }*/
+//            sizeVariantSpinnerAdapter.setProductSizeList(variantSizeArrayList);
 
             // Show related products
             if (productImagesAdapter != null) {
@@ -661,12 +659,12 @@ public class ProductFragment extends Fragment {
     }
 
     private void postProductToCart() {
-        if (selectedProductVariant == null || selectedProductVariant.getSize() == null ||
-                (selectedProductVariant.getId() == CONST.DEFAULT_EMPTY_ID &&
-                        selectedProductVariant.getSize().getId() == CONST.DEFAULT_EMPTY_ID)) {
-            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_NO_SIZE_SELECTED, null, MsgUtils.ToastLength.SHORT);
-            return;
-        }
+//        if (selectedProductVariant == null || selectedProductVariant.getSize() == null ||
+//                (selectedProductVariant.getId() == CONST.DEFAULT_EMPTY_ID &&
+//                        selectedProductVariant.getSize().getId() == CONST.DEFAULT_EMPTY_ID)) {
+//            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_NO_SIZE_SELECTED, null, MsgUtils.ToastLength.SHORT);
+//            return;
+//        }
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             if (addToCartImage != null) addToCartImage.setVisibility(View.INVISIBLE);

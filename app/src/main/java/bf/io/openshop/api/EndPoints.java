@@ -7,19 +7,20 @@ public class EndPoints {
     /**
      * Base server url.
      */
-    private static final String API_URL                  = "http://77.93.198.186/v1.2/";    // staging
+    //private static final String API_URL                  = "http://77.93.198.186/v1.2/";    // staging
+    private static final String API_URL                  = "http://10.87.199.232:9000/";    // staging
 
-    public static final String SHOPS                    = API_URL.concat(CONST.ORGANIZATION_ID + "/shops");
-    public static final String SHOPS_SINGLE             = API_URL.concat(CONST.ORGANIZATION_ID + "/shops/%d");
-    public static final String NAVIGATION_DRAWER        = API_URL.concat("%d/navigation_drawer");
-    public static final String BANNERS                  = API_URL.concat("%d/banners");
+    public static final String SHOPS                    = API_URL.concat("shops");
+    public static final String SHOPS_SINGLE             = API_URL.concat("shops/%d");
+    public static final String NAVIGATION_DRAWER        = API_URL.concat("navigation_drawer");
+    public static final String BANNERS                  = API_URL.concat("banners");
     public static final String PAGES_SINGLE             = API_URL.concat("%d/pages/%d");
     public static final String PAGES_TERMS_AND_COND     = API_URL.concat("%d/pages/terms");
-    public static final String PRODUCTS                 = API_URL.concat("%d/products");
-    public static final String PRODUCTS_SINGLE          = API_URL.concat("%d/products/%d");
-    public static final String PRODUCTS_SINGLE_RELATED  = API_URL.concat("%d/products/%d?include=related");
-    public static final String USER_REGISTER            = API_URL.concat("%d/users/register");
-    public static final String USER_LOGIN_EMAIL         = API_URL.concat("%d/login/email");
+    public static final String PRODUCTS                 = API_URL.concat("products");
+    public static final String PRODUCTS_SINGLE          = API_URL.concat("products/%d");
+    public static final String PRODUCTS_SINGLE_RELATED  = API_URL.concat("products/%d?include=related");
+    public static final String USER_REGISTER            = API_URL.concat("users/register");
+    public static final String USER_LOGIN_EMAIL         = API_URL.concat("login/email");
     public static final String USER_LOGIN_FACEBOOK      = API_URL.concat("%d/login/facebook");
     public static final String USER_RESET_PASSWORD      = API_URL.concat("%d/users/reset-password");
     public static final String USER_SINGLE              = API_URL.concat("%d/users/%d");

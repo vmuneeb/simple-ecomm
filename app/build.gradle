@@ -13,10 +13,10 @@ android {
     signingConfigs {
         release {
             try {
-                storeFile file("openshopKeystore.jks")
-                storePassword KEYSTORE_PASSWORD
-                keyAlias KEYSTORE_ALIAS
-                keyPassword KEY_PASSWORD
+                storeFile file("my-release-key.keystore")
+                storePassword "changeit"
+                keyAlias "alias-name"
+                keyPassword "changeit"
             } catch (ex) {
                 throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD, KEYSTORE_ALIAS and KEY_PASSWORD in gradle.properties." + ex)
             }

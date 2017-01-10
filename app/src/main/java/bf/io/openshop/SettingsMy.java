@@ -81,24 +81,26 @@ public class SettingsMy {
      */
     @NonNull
     public static Shop getActualNonNullShop(Activity activity) {
-        Shop shop = getActualShop();
-        if (shop == null) {
-            if (activity != null) {
-                MsgUtils.showToast(activity, MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.LONG);
-                Intent intent = new Intent(activity.getApplicationContext(), SplashActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                activity.startActivity(intent);
-            } else {
-                Timber.e("Null shop detected also with null activity parameter.");
-            }
-            // Return an empty shop to prevent a null pointer exception before intent is processed.
-            return new Shop();
-        } else {
-            return shop;
-        }
+        return  new Shop();
+//        Shop shop = getActualShop();
+//        if (shop == null) {
+//            if (activity != null) {
+//                MsgUtils.showToast(activity, MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.LONG);
+//                Intent intent = new Intent(activity.getApplicationContext(), SplashActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                activity.startActivity(intent);
+//            } else {
+//                Timber.e("Null shop detected also with null activity parameter.");
+//            }
+//            // Return an empty shop to prevent a null pointer exception before intent is processed.
+//            return new Shop();
+//        } else {
+//            return shop;
+//        }
     }
 
     /**
+     *
      * Get active user info.
      *
      * @return user or null if nobody logged in.

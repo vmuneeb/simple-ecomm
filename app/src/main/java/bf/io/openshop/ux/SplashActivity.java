@@ -128,119 +128,7 @@ public class SplashActivity extends AppCompatActivity {
             layoutContentSelectShop.setVisibility(View.GONE);
         } else {
             progressDialog.hide();
-
-            // Google Install referrer is handled by CampaignTrackingService and CampaignTrackingReceiver defined in Manifest.
-            // Referrer is sent with first event.
-
-            // Search for analytics data. General GA Campaign, and Facebook app links (if app links implemented on server side too).
-            Intent intent = this.getIntent();
-            if (intent != null) {
-                Uri uri = intent.getData();
-                if (uri != null && uri.isHierarchical() && (uri.getQueryParameter("utm_source") != null || uri.getQueryParameter(REFERRER) != null)) {
-                    // GA General Campaign & Traffic Source Attribution. Save camping data.
-                    // https://developers.google.com/analytics/devguides/collection/android/v3/campaigns
-                    Timber.d("UTM source detected. - General Campaign & Traffic Source Attribution.");
-                    if (uri.getQueryParameter("utm_source") != null) {
-                        Analytics.setCampaignUriString(uri.toString());
-                    } else if (uri.getQueryParameter(REFERRER) != null) {
-                        Analytics.setCampaignUriString(uri.getQueryParameter(REFERRER));
-                    }
-                } else if (intent.getExtras() != null) {
-                    // FB app link. For function needs server side implementation also. https://developers.facebook.com/docs/applinks
-                    Timber.d("Extra bundle detected.");
-                    try {
-                        Bundle bundleApplinkData = getIntent().getExtras();
-                        if (bundleApplinkData != null) {
-                            Bundle applinkData = bundleApplinkData.getBundle("al_applink_data");
-                            if (applinkData != null) {
-                                String targetUrl = applinkData.getString("target_url");
-                                if (targetUrl != null && !targetUrl.isEmpty()) {
-                                    Timber.d("TargetUrl: %s", targetUrl);
-                                    Analytics.setCampaignUriString(targetUrl);
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e, "Parsing FB deepLink exception");
-                    }
-                } else {
-                    // FB deferred app link. For function needs server side implementation also. https://developers.facebook.com/docs/applinks
-                    try {
-                        AppLinkData.fetchDeferredAppLinkData(this, new AppLinkData.CompletionHandler() {
-                            @Override
-                            public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-                                try {
-                                    if (appLinkData != null) {
-                                        String targetUrl = appLinkData.getTargetUri().toString();
-                                        if (targetUrl != null && !targetUrl.isEmpty()) {
-                                            Timber.e("TargetUrl: %s", targetUrl);
-                                            Analytics.setCampaignUriString(targetUrl);
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    Timber.e(e, "AppLinkData exception");
-                                }
-                            }
-                        });
-                    } catch (Exception e) {
-                        Timber.e(e, "Fetch deferredAppLinkData  exception");
-                    }
-                }
-            }
-
-            // If opened by notification. Try load shop defined by notification data. If error, just start shop with last used shop.
-            if (this.getIntent() != null && this.getIntent().getExtras() != null && this.getIntent().getExtras().getString(EndPoints.NOTIFICATION_LINK) != null) {
-                Timber.d("Run by notification.");
-                String type = this.getIntent().getExtras().getString(EndPoints.NOTIFICATION_LINK, "");
-                final String title = this.getIntent().getExtras().getString(EndPoints.NOTIFICATION_TITLE, "");
-                try {
-                    String[] linkParams = type.split(":");
-                    if (linkParams.length != 3) {
-                        Timber.e("Bad notification format. NotifyType: %s", type);
-                        throw new Exception("Bad notification format. NotifyType:" + type);
-                    } else {
-                        final String target = linkParams[1] + ":" + linkParams[2];
-                        int shopId = Integer.parseInt(linkParams[0]);
-                        String url = String.format(EndPoints.SHOPS_SINGLE, shopId);
-                        Analytics.setCampaignUriString(this.getIntent().getExtras().getString(EndPoints.NOTIFICATION_UTM, ""));
-
-                        progressDialog.show();
-                        GsonRequest<Shop> req = new GsonRequest<>(Request.Method.GET, url, null, Shop.class, new Response.Listener<Shop>() {
-                            @Override
-                            public void onResponse(Shop shop) {
-                                progressDialog.cancel();
-                                Bundle bundle = new Bundle();
-                                bundle.putString(CONST.BUNDLE_PASS_TARGET, target);
-                                bundle.putString(CONST.BUNDLE_PASS_TITLE, title);
-
-                                // Logout user if shop changed
-                                Shop actualShop = SettingsMy.getActualShop();
-                                if (actualShop != null && shop.getId() != actualShop.getId())
-                                    LoginDialogFragment.logoutUser();
-
-                                setShopInformationAndStartMainActivity(shop, bundle);
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                progressDialog.cancel();
-                                MsgUtils.logErrorMessage(error);
-                                startMainActivity(null);
-                            }
-                        });
-                        req.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-                        req.setShouldCache(false);
-                        MyApplication.getInstance().addToRequestQueue(req, CONST.SPLASH_REQUESTS_TAG);
-                    }
-                } catch (Exception e) {
-                    Timber.e(e, "Skip Splash activity after notification error.");
-                    startMainActivity(null);
-                }
-            } else {
-                // Nothing special. try continue to MainActivity.
-                Timber.d("Nothing special.");
-                startMainActivity(null);
-            }
+            startMainActivity(null);
         }
     }
 
@@ -309,22 +197,13 @@ public class SplashActivity extends AppCompatActivity {
      * @param bundle notification specific data.
      */
     private void startMainActivity(Bundle bundle) {
-        if (SettingsMy.getActualShop() == null) {
-            // First run, allow user choose desired shop.
-            Timber.d("Missing active shop. Show shop selection.");
-            initSplashLayout();
-            layoutContentNoConnection.setVisibility(View.GONE);
-            layoutContentSelectShop.setVisibility(View.VISIBLE);
-            requestShops();
-        } else {
-            Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-            if (bundle != null) {
-                Timber.d("Pass bundle to main activity");
-                mainIntent.putExtras(bundle);
-            }
-            startActivity(mainIntent);
-            finish();
+        Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+        if (bundle != null) {
+            Timber.d("Pass bundle to main activity");
+            mainIntent.putExtras(bundle);
         }
+        startActivity(mainIntent);
+        finish();
     }
 
     /**

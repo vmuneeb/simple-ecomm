@@ -57,7 +57,8 @@ public class MyApplication extends Application {
         Resources res = mInstance.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();
-        conf.locale = new Locale(lang);
+        //conf.locale = new Locale(lang);
+        conf.locale = new Locale(Locale.getDefault().getDisplayLanguage());
         Timber.d("Setting language: %s", lang);
         res.updateConfiguration(conf, dm);
     }

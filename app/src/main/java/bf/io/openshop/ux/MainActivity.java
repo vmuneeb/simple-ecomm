@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         Timber.d("%s onCreate", MainActivity.class.getSimpleName());
 
         // Set app specific language localization by selected shop.
-        String lang = SettingsMy.getActualNonNullShop(this).getLanguage();
-        MyApplication.setAppLocale(lang);
+//        String lang = SettingsMy.getActualNonNullShop(this).getLanguage();
+//        MyApplication.setAppLocale(lang);
 
         setContentView(R.layout.activity_main);
 
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
 //        }
 
         // Initialize trackers and fbLogger
-        Analytics.prepareTrackersAndFbLogger(SettingsMy.getActualNonNullShop(this), getApplicationContext());
+//        Analytics.prepareTrackersAndFbLogger(SettingsMy.getActualNonNullShop(this), getApplicationContext());
 
         // Prepare toolbar and navigation drawer
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                 }
             }
         };
-        registerGcmOnServer();
+        //registerGcmOnServer();
         // end of GCM registration //
 
         addInitialFragment();
