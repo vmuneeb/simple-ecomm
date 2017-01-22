@@ -120,32 +120,32 @@
                     tools:visibility="visible"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/base_margin_vertical"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/base_margin_vertical"-->
+                <!--android:orientation="horizontal">-->
 
-                <Button
-                    android:id="@+id/account_dispensing_places"
-                    style="@style/buttonSecondaryStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/Branches"/>
+                <!--<Button-->
+                    <!--android:id="@+id/account_dispensing_places"-->
+                    <!--style="@style/buttonSecondaryStyle"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/Branches"/>-->
 
-                <View
-                    android:layout_width="@dimen/base_margin"
-                    android:layout_height="match_parent"/>
+                <!--<View-->
+                    <!--android:layout_width="@dimen/base_margin"-->
+                    <!--android:layout_height="match_parent"/>-->
 
-                <Button
-                    android:id="@+id/account_settings"
-                    style="@style/buttonSecondaryStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/Settings"/>
-            </LinearLayout>
+                <!--<Button-->
+                    <!--android:id="@+id/account_settings"-->
+                    <!--style="@style/buttonSecondaryStyle"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/Settings"/>-->
+            <!--</LinearLayout>-->
 
             <Button
                 android:id="@+id/account_login_logout_btn"

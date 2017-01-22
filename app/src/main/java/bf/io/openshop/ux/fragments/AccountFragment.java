@@ -90,7 +90,8 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
+        //TODO removed extra buttons
+/*
         Button settingsBtn = (Button) view.findViewById(R.id.account_settings);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +114,7 @@ public class AccountFragment extends Fragment {
                 shippingDialogFragment.show(getFragmentManager(), "shippingDialogFragment");
             }
         });
-
+*/
         loginLogoutBtn = (Button) view.findViewById(R.id.account_login_logout_btn);
         loginLogoutBtn.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -152,7 +153,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void syncUserData(@NonNull User user) {
-        String url = String.format(EndPoints.USER_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), user.getId());
+        String url = String.format(EndPoints.USER_SINGLE, user.getId());
         pDialog.show();
 
         GsonRequest<User> getUser = new GsonRequest<>(Request.Method.GET, url, null, User.class,

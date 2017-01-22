@@ -299,7 +299,7 @@ public class Analytics {
         Bundle parametersCheckout = new Bundle();
         parametersCheckout.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "cart");
         parametersCheckout.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, orderRemoteId);
-        parametersCheckout.putInt(AppEventsConstants.EVENT_PARAM_NUM_ITEMS, orderCart.getItems().size());  // Unique products/events
+        //parametersCheckout.putInt(AppEventsConstants.EVENT_PARAM_NUM_ITEMS, orderCart.getItems().size());  // Unique products/events
         parametersCheckout.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, orderCart.getCurrency());
         logFbEvent(AppEventsConstants.EVENT_NAME_INITIATED_CHECKOUT, orderTotalPrice, parametersCheckout);
 
@@ -311,7 +311,7 @@ public class Analytics {
         logFbEvent(AppEventsConstants.EVENT_NAME_PURCHASED, (double) selectedShipping.getPrice(), parametersShip);
 
         // Send single products in cart to GA and FB
-        for (int i = 0; i < orderCart.getItems().size(); i++) {
+/*        for (int i = 0; i < orderCart.getItems().size(); i++) {
             CartProductItem item = orderCart.getItems().get(i);
 
             Double price = item.getVariant().getPrice();
@@ -337,6 +337,7 @@ public class Analytics {
             parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, orderCart.getCurrency());
             logFbEvent(AppEventsConstants.EVENT_NAME_PURCHASED, price * item.getQuantity(), parameters);
         }
+        */
     }
 
     /**

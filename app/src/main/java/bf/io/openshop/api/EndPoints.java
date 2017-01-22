@@ -8,7 +8,7 @@ public class EndPoints {
      * Base server url.
      */
     //private static final String API_URL                  = "http://77.93.198.186/v1.2/";    // staging
-    private static final String API_URL                  = "http://10.87.199.232:9000/";    // staging
+    private static final String API_URL                  = "http://192.168.1.2:9000/";    // staging
 
     public static final String SHOPS                    = API_URL.concat("shops");
     public static final String SHOPS_SINGLE             = API_URL.concat("shops/%d");
@@ -23,15 +23,15 @@ public class EndPoints {
     public static final String USER_LOGIN_EMAIL         = API_URL.concat("login/email");
     public static final String USER_LOGIN_FACEBOOK      = API_URL.concat("%d/login/facebook");
     public static final String USER_RESET_PASSWORD      = API_URL.concat("%d/users/reset-password");
-    public static final String USER_SINGLE              = API_URL.concat("%d/users/%d");
+    public static final String USER_SINGLE              = API_URL.concat("users/%d");
     public static final String USER_CHANGE_PASSWORD     = API_URL.concat("%d/users/%d/password");
-    public static final String CART                     = API_URL.concat("%d/cart");
-    public static final String CART_INFO                = API_URL.concat("%d/cart/info");
+    public static final String CART                     = API_URL.concat("cart");
+    public static final String CART_INFO                = API_URL.concat("cart/info");
     public static final String CART_ITEM                = API_URL.concat("%d/cart/%d");
     public static final String CART_DELIVERY_INFO       = API_URL.concat("%d/cart/delivery-info");
     public static final String CART_DISCOUNTS           = API_URL.concat("%d/cart/discounts");
     public static final String CART_DISCOUNTS_SINGLE    = API_URL.concat("%d/cart/discounts/%d");
-    public static final String ORDERS                   = API_URL.concat("%d/orders");
+    public static final String ORDERS                   = API_URL.concat("orders");
     public static final String ORDERS_SINGLE            = API_URL.concat("%d/orders/%d");
     public static final String BRANCHES                 = API_URL.concat("%d/branches");
     public static final String WISHLIST                 = API_URL.concat("%d/wishlist");

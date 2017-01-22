@@ -22,6 +22,8 @@ public class CartProductItemVariant {
     private String priceFormatted;
     private long category;
 
+    private int quantity;
+
     @SerializedName("discount_price")
     private double discountPrice;
 
@@ -37,6 +39,14 @@ public class CartProductItemVariant {
     private ProductSize size;
 
     public CartProductItemVariant() {
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public long getId() {

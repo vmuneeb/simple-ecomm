@@ -366,7 +366,7 @@ public class ProductFragment extends Fragment {
      */
     private void getProduct(final long productId) {
         // Load product info
-        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
+        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, productId);
         setContentVisible(CONST.VISIBLE.PROGRESS);
 
         GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
@@ -527,7 +527,7 @@ public class ProductFragment extends Fragment {
 
     private void refreshScreenData(Product product) {
         if (product != null) {
-            Analytics.logProductView(product.getRemoteId(), product.getName());
+//            Analytics.logProductView(product.getRemoteId(), product.getName());
 
             productNameTv.setText(product.getName());
 
@@ -563,6 +563,13 @@ public class ProductFragment extends Fragment {
     private void setSpinners(Product product) {
         if (product != null && product.getVariants() != null && product.getVariants().size() > 0) {
             this.product = product;
+
+            if (productImagesAdapter != null) {
+                productImagesAdapter.clearAll();
+                productImagesAdapter.addLast(product.getMainImage());
+                Timber.d("Product image added: %s",product.getMainImage());
+            }
+
             List<ProductColor> productColors = new ArrayList<>();
 
 
@@ -601,6 +608,11 @@ public class ProductFragment extends Fragment {
             }
         } else {
             Timber.e("Setting spinners for null product variants.");
+            if (productImagesAdapter != null) {
+                productImagesAdapter.clearAll();
+                productImagesAdapter.addLast(product.getMainImage());
+                Timber.d("Product image added: %s",product.getMainImage());
+            }
         }
     }
 
@@ -608,7 +620,8 @@ public class ProductFragment extends Fragment {
         if (product != null) {
             ArrayList<ProductVariant> variantSizeArrayList = new ArrayList<>();
             productImagesUrls = new ArrayList<>();
-
+            productImagesUrls.add(product.getMainImage());
+            Timber.e("Product image image: %s", product.getMainImage());
             for (ProductVariant pv : product.getVariants()) {
                 if (pv.getColor().equals(productColor)) {
                     variantSizeArrayList.add(pv);
@@ -673,7 +686,9 @@ public class ProductFragment extends Fragment {
             // get selected radio button from radioGroup
             JSONObject jo = new JSONObject();
             try {
-                jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, selectedProductVariant.getId());
+//TODO change prduct id
+//                jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, selectedProductVariant.getId());
+                jo.put(JsonUtils.TAG_PRODUCT_VARIANT_ID, 10);
             } catch (JSONException e) {
                 Timber.e(e, "Create json add product to cart exception");
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
@@ -689,8 +704,8 @@ public class ProductFragment extends Fragment {
                     if (addToCartProgress != null)
                         addToCartProgress.setVisibility(View.INVISIBLE);
 
-                    Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), product.getDiscountPrice());
-                    MainActivity.updateCartCountNotification();
+                    //Analytics.logAddProductToCart(product.getRemoteId(), product.getName(), product.getDiscountPrice());
+                    //MainActivity.updateCartCountNotification();
 
                     String result = getString(R.string.Product) + " " + getString(R.string.added_to_cart);
                     Snackbar snackbar = Snackbar.make(productContainer, result, Snackbar.LENGTH_LONG)

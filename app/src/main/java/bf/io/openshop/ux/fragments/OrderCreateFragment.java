@@ -136,7 +136,7 @@ public class OrderCreateFragment extends Fragment {
                     order.setHouseNumber(Utils.getTextFromInputLayout(houseNumberInputWrapper));
                     order.setZip(Utils.getTextFromInputLayout(zipInputWrapper));
                     order.setEmail(Utils.getTextFromInputLayout(emailInputWrapper));
-                    order.setShippingType(selectedShipping.getId());
+//                    order.setShippingType(selectedShipping.getId());
                     if (selectedPayment != null) {
                         order.setPaymentType(selectedPayment.getId());
                     } else {
@@ -211,17 +211,18 @@ public class OrderCreateFragment extends Fragment {
 
         if (nameCheck && streetCheck && houseNumberCheck && cityCheck && zipCheck && phoneCheck && emailCheck) {
             // Check if shipping and payment is selected
-            if (selectedShipping == null) {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Choose_shipping_method), MsgUtils.ToastLength.SHORT);
-                scrollLayout.smoothScrollTo(0, deliveryShippingLayout.getTop());
-                return false;
-            }
-
-            if (selectedPayment == null) {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Choose_payment_method), MsgUtils.ToastLength.SHORT);
-                scrollLayout.smoothScrollTo(0, deliveryShippingLayout.getTop());
-                return false;
-            }
+//TODO removed shipping and payment
+//            if (selectedShipping == null) {
+//                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Choose_shipping_method), MsgUtils.ToastLength.SHORT);
+//                scrollLayout.smoothScrollTo(0, deliveryShippingLayout.getTop());
+//                return false;
+//            }
+//
+//            if (selectedPayment == null) {
+//                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Choose_payment_method), MsgUtils.ToastLength.SHORT);
+//                scrollLayout.smoothScrollTo(0, deliveryShippingLayout.getTop());
+//                return false;
+//            }
             return true;
         } else {
             return false;
@@ -376,8 +377,9 @@ public class OrderCreateFragment extends Fragment {
                 TextView tvItemQuantity = (TextView) llRow.findViewById(R.id.order_create_cart_item_quantity);
                 tvItemQuantity.setText(getString(R.string.format_quantity, cartProductItems.get(i).getQuantity()));
                 TextView tvItemDetails = (TextView) llRow.findViewById(R.id.order_create_cart_item_details);
-                tvItemDetails.setText(getString(R.string.format_string_division, cartProductItems.get(i).getVariant().getColor().getValue(),
-                        cartProductItems.get(i).getVariant().getSize().getValue()));
+                //TODO removed color variant
+/*                tvItemDetails.setText(getString(R.string.format_string_division, cartProductItems.get(i).getVariant().getColor().getValue(),
+                        cartProductItems.get(i).getVariant().getSize().getValue()));  */
                 cartItemsLayout.addView(llRow);
             }
             if (cart.getDiscounts() != null) {
@@ -398,6 +400,8 @@ public class OrderCreateFragment extends Fragment {
             // TODO pull to scroll could be cool here
             String url = String.format(EndPoints.CART_DELIVERY_INFO, SettingsMy.getActualNonNullShop(getActivity()).getId());
 
+
+           /*TODO removed CART_DELIVERY_INFO
             deliveryProgressBar.setVisibility(View.VISIBLE);
             GsonRequest<DeliveryRequest> getDelivery = new GsonRequest<>(Request.Method.GET, url, null, DeliveryRequest.class,
                     new Response.Listener<DeliveryRequest>() {
@@ -421,6 +425,7 @@ public class OrderCreateFragment extends Fragment {
             getDelivery.setRetryPolicy(MyApplication.getDefaultRetryPolice());
             getDelivery.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(getDelivery, CONST.ORDER_CREATE_REQUESTS_TAG);
+            */
         }
     }
 

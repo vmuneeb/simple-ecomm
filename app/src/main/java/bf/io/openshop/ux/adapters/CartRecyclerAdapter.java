@@ -83,18 +83,20 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        Timber.d("Bind position: " + position);
+        Timber.d("Bind position: " + position);
         if (holder instanceof ViewHolderProduct) {
             ViewHolderProduct viewHolderProduct = (ViewHolderProduct) holder;
 
             CartProductItem cartProductItem = getCartProductItem(position);
+            Timber.d("CartProductItem %s", cartProductItem);
             viewHolderProduct.bindContent(cartProductItem);
 
             viewHolderProduct.cartProductName.setText(cartProductItem.getVariant().getName());
             viewHolderProduct.cartProductPrice.setText(cartProductItem.getTotalItemPriceFormatted());
-            viewHolderProduct.cartProductDetails.setText(context.getString(
+            //TODO removed color selection
+            /*viewHolderProduct.cartProductDetails.setText(context.getString(
                     R.string.format_string_division, cartProductItem.getVariant().getColor().getValue(),
-                    cartProductItem.getVariant().getSize().getValue()));
+                    cartProductItem.getVariant().getSize().getValue()));*/
             viewHolderProduct.cartProductQuantity.setText(context.getString(R.string.format_quantity,
                     cartProductItem.getQuantity()));
 
@@ -121,7 +123,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             cartProductItems.clear();
             cartDiscountItems.clear();
             cartProductItems.addAll(cart.getItems());
-            cartDiscountItems.addAll(cart.getDiscounts());
+//            cartDiscountItems.addAll(cart.getDiscounts());
             notifyDataSetChanged();
         } else {
             Timber.e("Setting cart content with null cart");

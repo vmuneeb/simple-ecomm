@@ -284,6 +284,7 @@ public class DrawerFragment extends Fragment {
         drawerRetryBtn.setVisibility(View.GONE);
 
         String url = String.format(EndPoints.NAVIGATION_DRAWER, SettingsMy.getActualNonNullShop(getActivity()).getId());
+        Timber.d("NAVIGATION_DRAWER url %s",url);
         GsonRequest<DrawerResponse> getDrawerMenu = new GsonRequest<>(Request.Method.GET, url, null, DrawerResponse.class, new Response.Listener<DrawerResponse>() {
             @Override
             public void onResponse(@NonNull DrawerResponse drawerResponse) {

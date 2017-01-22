@@ -236,7 +236,7 @@ public class CategoryFragment extends Fragment {
                 prepareSortSpinner();
                 getProducts(null);
 
-                Analytics.logCategoryView(categoryId, categoryName, isSearch);
+//                Analytics.logCategoryView(categoryId, categoryName, isSearch);
             } else {
                 prepareProductRecycler(view);
                 prepareSortSpinner();
@@ -437,7 +437,7 @@ public class CategoryFragment extends Fragment {
 //                        Timber.d("response:" + response.toString());
                         productsRecyclerAdapter.addProducts(response.getProducts());
                         productsMetadata = response.getMetadata();
-                        if (filters == null) filters = productsMetadata.getFilters();
+//                        if (filters == null) filters = productsMetadata.getFilters();
                         checkEmptyContent();
                         loadMoreProgress.setVisibility(View.GONE);
                     }

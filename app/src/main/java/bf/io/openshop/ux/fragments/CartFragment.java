@@ -89,7 +89,8 @@ public class CartFragment extends Fragment {
         cartFooter = view.findViewById(R.id.cart_footer);
         cartItemCountTv = (TextView) view.findViewById(R.id.cart_footer_quantity);
         cartTotalPriceTv = (TextView) view.findViewById(R.id.cart_footer_price);
-        view.findViewById(R.id.cart_footer_action).setOnClickListener(new OnSingleClickListener() {
+        //TODO Remove discount fragment
+      /*  view.findViewById(R.id.cart_footer_action).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 DiscountDialogFragment discountDialog = DiscountDialogFragment.newInstance(new RequestListener() {
@@ -108,7 +109,7 @@ public class CartFragment extends Fragment {
                     discountDialog.show(getFragmentManager(), DiscountDialogFragment.class.getSimpleName());
                 }
             }
-        });
+        });  */
 
         Button order = (Button) view.findViewById(R.id.cart_order);
         order.setOnClickListener(new OnSingleClickListener() {
@@ -135,8 +136,8 @@ public class CartFragment extends Fragment {
                         @Override
                         public void onResponse(@NonNull Cart cart) {
                             if (progressDialog != null) progressDialog.cancel();
-
                             MainActivity.updateCartCountNotification();
+                            Timber.d("Cart product item %s",cart);
                             if (cart.getItems() == null || cart.getItems().size() == 0) {
                                 setCartVisibility(false);
                             } else {
