@@ -1,7 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Shop;
+import models.product.Category;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -15,15 +15,13 @@ import java.util.List;
  */
 public class CommonController  extends Controller {
     public Result getShops() {
-        List<Shop> shopList = Shop.find.where().findList();
         ObjectNode res = new Json().newObject();
-        res.put("records",Json.toJson(shopList));
+        res.put("records",Json.toJson(null));
         res.set("metadata",null);
         return Results.ok(res);
     }
 
     public Result navigation() {
-        List<Shop> shopList = Shop.find.where().findList();
         ObjectNode resultJson = Json.newObject();
         List<ObjectNode> listNode = new ArrayList<>();
         ObjectNode res = new Json().newObject();
@@ -68,30 +66,19 @@ public class CommonController  extends Controller {
 
 
     public Result banners() {
+        List<Category> categories = Category.find.all();
         ObjectNode resultJson = Json.newObject();
         List<ObjectNode> listNode = new ArrayList<>();
-        ObjectNode res = new Json().newObject();
-        res.put("id","1");
-        res.put("target","list:67049");
-        res.put("name","Shoes");
-        res.put("type","category");
-        res.put("image_url","http://77.93.198.186/u/2016/05/03/1462284245-9.jpg");
-        listNode.add(res);
 
-        res = new Json().newObject();
-        res.put("id","2");
-        res.put("target","list:67048");
-        res.put("name","T-shirts");
-        res.put("type","category");
-        res.put("image_url","http://77.93.198.186/u/2016/05/03/1462284283-74.jpg");
-        listNode.add(res);
-
-        res = new Json().newObject();
-        res.put("id","3");
-        res.put("target","list:67047");
-        res.put("name","Skirts");
-        res.put("image_url","http://77.93.198.186/u/2016/05/03/1462284326-39.jpg");
-        listNode.add(res);
+        categories.forEach(category -> {
+            ObjectNode res = new Json().newObject();
+            res.put("id",category.categoryId);
+            res.put("target","list:"+category.categoryId);
+            res.put("name",category.name);
+            res.put("type","category");
+            res.put("image_url",category.image);
+            listNode.add(res);
+        });
 
         resultJson.putArray("records").addAll(listNode);
 

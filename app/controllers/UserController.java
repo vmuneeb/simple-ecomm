@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -26,10 +25,7 @@ public class UserController extends Controller {
     @Inject
     FormFactory formFactory;
 
-    @BodyParser.Of(BodyParser.Json.class)
     public Result loginUser() {
-
-        LOG.error("request body is {}",request().body().asJson());
 
         Form<LoginDto> form = formFactory.form(LoginDto.class).bindFromRequest();
 
@@ -38,17 +34,15 @@ public class UserController extends Controller {
         }
         LoginDto loginDto = form.get();
         User user = User.find.where().eq("email",loginDto.email).eq("password",loginDto.password).findUnique();
-        if(user != null) {
-            return Results.badRequest("user already registered");
+        if(user == null) {
+            return Results.badRequest("user not found");
         }else {
             return Results.ok(Json.toJson(user));
         }
     }
 
 
-    @BodyParser.Of(BodyParser.Json.class)
     public Result registerUser() {
-        LOG.error("request body is {}",request().body().asJson());
 
         Form<SignupDto> form = formFactory.form(SignupDto.class).bindFromRequest();
 
@@ -57,15 +51,26 @@ public class UserController extends Controller {
         }
 
         SignupDto signupDto = form.get();
-        User user = User.find.where().eq("email",signupDto.email).findUnique();
+        User user = User.find.where().eq("email",signupDto.username).findUnique();
         if(user != null) {
             return Results.badRequest("user already registered");
         }
         user = new User();
-        user.setEmail(signupDto.email);
-        user.setPhone(signupDto.password);
-        user.setGender(signupDto.gender);
-        user.setAccessToken(UUID.randomUUID().toString());
+        user.email = signupDto.username;
+        user.password = signupDto.password;
+        user.gender  = signupDto.gender ;
+        user.accessToken = UUID.randomUUID().toString();
+        user.save();
+        return Results.ok(Json.toJson(user));
+    }
+
+
+    public Result getUserDetails(String id) {
+
+        User user = User.find.all().get(0);
+        if(user == null) {
+            return Results.notFound("No user found");
+        }
         return Results.ok(Json.toJson(user));
     }
 

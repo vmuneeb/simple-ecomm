@@ -8,7 +8,7 @@ GET     /shops                           controllers.CommonController.getShops()
 GET     /navigation_drawer               controllers.CommonController.navigation()
 GET     /banners               controllers.CommonController.banners()
 
-GET     /products               controllers.ProductController.getProducts()
+GET     /products               controllers.ProductController.getProducts(category:String,sort:String)
 
 GET     /products/:id               controllers.ProductController.getProduct(id:String)
 
@@ -16,6 +16,19 @@ GET     /products/:id               controllers.ProductController.getProduct(id:
 POST /login/email                 controllers.UserController.loginUser()
 
 POST /users/register                 controllers.UserController.registerUser()
+
+GET /users/:id                 controllers.UserController.getUserDetails(id:String)
+
+
+POST /cart                 controllers.CartController.addToCart()
+
+GET /cart                   controllers.CartController.getCart()
+
+GET /cart/info                   controllers.CartController.getCartInfo()
+
+POST /orders                 controllers.OrderController.createOrder()
+
+GET /orders                 controllers.OrderController.getOrders()
 
 
 
