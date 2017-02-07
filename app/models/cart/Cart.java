@@ -5,7 +5,10 @@ package models.cart;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import models.User;
+import play.data.format.Formats;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,22 +22,29 @@ public class Cart extends Model{
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    public User userId;
+    public User user;
 
+    @JsonProperty("product_count")
     public int productCount;
 
+    @JsonProperty("price_formatted")
     public long totalPrice;
 
+    @JsonProperty("total_price_formatted")
     public String totalPriceFormatted;
     public String currency;
 
+    @OneToMany(mappedBy = "cart", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
     public List<CartProduct> items;
 
     @CreatedTimestamp
-    public Date createdTime;
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    public Date createdTime = new Date();
 
     @UpdatedTimestamp
-    public Date updatedTime;
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    public Date updatedTime = new Date();
 
     public static Model.Find<Long, Cart> find = new Model.Find<Long, Cart>() {
     };

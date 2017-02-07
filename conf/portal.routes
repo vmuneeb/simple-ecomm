@@ -1,0 +1,2 @@
+GET     /  controllers.Assets.at(path="/public", file="html/index.html")
+GET     /signin                           controllers.portal.HomeController.index()

@@ -1,0 +1,4 @@
+GET     /                           controllers.admin.AdminController.index()
+POST    /                           controllers.admin.AdminController.loginAdmin()
+GET    /home                           controllers.admin.AdminController.home()
+GET    /logout                           controllers.admin.AdminController.logout()

@@ -5,12 +5,6 @@ package dto;
  */
 public class CartDto {
     public int quantity;
-    public CartProduct product;
+    public long product_variant_id;
 
-}
-
-class CartProduct {
-    public String id;
-    public String color_id;
-    public String size_id;
 }

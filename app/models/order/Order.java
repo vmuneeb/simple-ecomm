@@ -2,38 +2,82 @@ package models.order;
 
 
 
+import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.UpdatedTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import dto.OrderDto;
+import models.User;
+import play.data.format.Formats;
 
-public class Order {
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
-    private long id;
+@Entity
+@Table(name = "user_order")
+public class Order extends Model{
 
-    private String remoteId;
+    @Id
+    public long id;
 
-    private String dateCreated;
-    private String status;
-    private int total;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    public User user;
 
-    private String totalFormatted;
+    @OneToMany(mappedBy = "order", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
+    public List<OrderProduct> items;
 
-    private String shippingName;
 
-    private int shippingPrice;
+    public String status;
+    public int total;
 
-    private String shippingPriceFormatted;
-    private String currency;
+    @JsonProperty("total_formatted")
+    public String totalFormatted;
 
-    private long shippingType;
+    public String shippingName;
 
-    private long paymentType;
-    private String name;
-    private String street;
+    public int shippingPrice;
 
-    private String houseNumber;
-    private String city;
-    private String zip;
+    public String shippingPriceFormatted;
 
-    private String email;
-    private String phone;
-    private String note;
+    public long shippingType;
 
+    public long paymentType;
+    public String name;
+    public String street;
+
+    public String houseNumber;
+    public String city;
+
+    public String zip;
+
+    public String email;
+    public String phone;
+    public String note;
+
+
+    public int productCount;
+
+    public double totalPrice;
+
+    public String currency;
+
+    @CreatedTimestamp
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    public Date createdTime = new Date();
+
+    @UpdatedTimestamp
+    @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonProperty("date_created")
+    public Date updatedTime = new Date();
+
+
+
+    public static Model.Find<Long, Order> find = new Model.Find<Long, Order>() {
+    };
 }

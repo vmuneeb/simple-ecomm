@@ -2,17 +2,17 @@ name := "template-api-rest-java-playframework"
 
 version := "1.1"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava,PlayEbean)
+lazy val root = (project in file(".")).enablePlugins(PlayJava,PlayEbean,PlayEnhancer)
 
-scalaVersion := "2.11.6"
+autoScalaLibrary := false
+
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
-  javaJpa,
-  "org.hibernate" % "hibernate-entitymanager" % "4.3.7.Final",
   "mysql" % "mysql-connector-java" % "5.1.18",
-  "org.dbunit" % "dbunit" % "2.4.9",
   cache,
   javaWs,
+  "org.mindrot" % "jbcrypt" % "0.3m",
   "org.codehaus.jackson" % "jackson-mapper-asl" % "1.8.5"
 )
 
