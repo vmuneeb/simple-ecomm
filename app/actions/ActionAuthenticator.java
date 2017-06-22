@@ -1,7 +1,7 @@
 package actions;
 
 
-import models.User;
+import models.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import play.mvc.Http;
@@ -21,10 +21,9 @@ public class ActionAuthenticator extends Security.Authenticator {
     private static final Logger LOG = LoggerFactory.getLogger(ActionAuthenticator.class);
     @Override
     public String getUsername(Http.Context ctx) {
-        String token = getTokenFromHeader(ctx);
-        token = token.substring(0,token.lastIndexOf(":"));
-        if (token != null) {
-            User user = User.find.where().eq("access_token", token).findUnique();
+        String userId = getTokenFromSession(ctx);
+        if (userId != null) {
+            User user = User.find.where().eq("id", Integer.parseInt(userId)).findUnique();
             if (user != null) {
                 return Long.toString(user.id);
             }
@@ -37,23 +36,8 @@ public class ActionAuthenticator extends Security.Authenticator {
         return super.onUnauthorized(context);
     }
 
-    private String getTokenFromHeader(Http.Context ctx) {
-        String accessToken = null;
-        String authHeader = ctx.request().getHeader("Authorization");
-        if (authHeader != null) {
-            StringTokenizer st = new StringTokenizer(authHeader);
-            if (st.hasMoreTokens()) {
-                String basic = st.nextToken();
-                if (basic.equalsIgnoreCase("Basic")) {
-                    try {
-                         accessToken = new String(Base64.decodeBase64(st.nextToken()), "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        throw new Error("Couldn't retrieve authentication", e);
-                    }
-                }
-            }
-        }
 
-        return accessToken;
+    private String getTokenFromSession(Http.Context ctx) {
+        return ctx.session().get("admin");
     }
 }

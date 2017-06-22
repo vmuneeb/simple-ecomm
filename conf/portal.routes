@@ -1,2 +1,26 @@
-GET     /  controllers.Assets.at(path="/public", file="html/index.html")
-GET     /signin                           controllers.portal.HomeController.index()
+GET     /                           controllers.portal.HomeController.index()
+GET     /login                           controllers.portal.HomeController.login()
+GET     /products                           controllers.portal.HomeController.products(category:String?=null,subCategory:String?=null,brand:String?=null,search:String?=null,p:Integer?=0)
+GET     /product/:id                           controllers.portal.HomeController.product(id:String)
+GET     /cart                           controllers.portal.CartController.cart()
+GET     /checkout                           controllers.portal.CartController.checkout()
+POST     /cart                           controllers.portal.CartController.addToCart()
+
+GET     /orders                           controllers.portal.HomeController.orders(p:Integer?=0)
+GET     /orders/:pageNumber                           controllers.portal.HomeController.orders(pageNumber:Integer)
+
+
+GET     /order/:id                           controllers.portal.HomeController.order(id:String)
+
+POST    /login                           controllers.portal.UserController.loginUser()
+
+GET    /signup                           controllers.portal.UserController.signup()
+
+GET    /forgot                           controllers.portal.UserController.forgotPassword()
+POST   /forgot                           controllers.portal.UserController.forgotPwdSendEmail()
+
+GET    /reset                           controllers.portal.UserController.reset()
+POST    /reset                           controllers.portal.UserController.resetPwd()
+
+POST   /register                           controllers.portal.UserController.registerUser()
+GET    /logout                           controllers.portal.UserController.logout()

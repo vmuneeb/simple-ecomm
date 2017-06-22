@@ -8,11 +8,12 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import dto.OrderDto;
-import models.User;
+import models.user.User;
 import play.data.format.Formats;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class Order extends Model{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     public User user;
 
     @OneToMany(mappedBy = "order", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
@@ -33,28 +33,19 @@ public class Order extends Model{
     public List<OrderProduct> items;
 
 
-    public String status;
+    public OrderStatus status;
+
     public int total;
 
     @JsonProperty("total_formatted")
     public String totalFormatted;
 
-    public String shippingName;
-
-    public int shippingPrice;
-
-    public String shippingPriceFormatted;
-
-    public long shippingType;
-
-    public long paymentType;
     public String name;
+
+    public String building;
     public String street;
-
-    public String houseNumber;
+    public String area;
     public String city;
-
-    public String zip;
 
     public String email;
     public String phone;
@@ -65,7 +56,6 @@ public class Order extends Model{
 
     public double totalPrice;
 
-    public String currency;
 
     @CreatedTimestamp
     @Formats.DateTime(pattern="yyyy-MM-dd HH:mm:ss")
@@ -80,4 +70,14 @@ public class Order extends Model{
 
     public static Model.Find<Long, Order> find = new Model.Find<Long, Order>() {
     };
+
+    DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:SS:mm");
+
+    public String getUpdatedTime() {
+        return format.format(updatedTime);
+    }
+
+    public String getCreatedTime() {
+        return format.format(createdTime);
+    }
 }

@@ -3,11 +3,12 @@ package controllers.api;
 
 import Util.Utility;
 import actions.ActionAuthenticator;
+import actions.SessionAuthenticator;
 import com.avaje.ebean.Expr;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import dto.CartDto;
-import models.User;
+import models.user.User;
 import models.cart.Cart;
 import models.cart.CartProduct;
 import models.product.Product;
@@ -31,11 +32,12 @@ public class CartController extends Controller {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
-    @Security.Authenticated(ActionAuthenticator.class)
+    @Security.Authenticated(SessionAuthenticator.class)
     public Result addToCart() {
         Form<CartDto> form = formFactory.form(CartDto.class).bindFromRequest();
         String userId = request().username();
         if (form.hasErrors()) {
+            LOG.error("Form has errors {}",form.errors());
             return Results.badRequest();
         }
         CartDto cartDto = form.get();
@@ -45,15 +47,17 @@ public class CartController extends Controller {
             return badRequest("No product found");
         }
 
-        Cart cart = Cart.find.where().eq("user_id",userId).findUnique();
+
+        Cart cart = Cart.find.where().eq("user_id",Integer.parseInt(userId)).findUnique();
         if(cart == null) {
             cart = new Cart();
-            User user= User.find.where().eq("id",userId).findUnique();
+            User user= User.find.where().eq("id",Integer.parseInt(userId)).findUnique();
             if(user == null) {
                 return unauthorized();
             }
             cart.user = user;
         }
+
         CartProduct old = null;
         List<CartProduct> cartProducts = cart.items;
         if(cartProducts == null ) {
@@ -64,7 +68,7 @@ public class CartController extends Controller {
 
         if(cart == null) {
             cart = new Cart();
-            User user= User.find.where().eq("id",userId).findUnique();
+            User user= User.find.where().eq("id",Integer.parseInt(userId)).findUnique();
             if(user == null) {
                 return unauthorized();
             }
@@ -72,25 +76,28 @@ public class CartController extends Controller {
         }
 
 
-        CartProduct cartProduct;
-        if(old == null ) {
-            cartProduct = new CartProduct();
-        } else {
-            cartProduct = old;
+        CartProduct cartProduct  = new CartProduct();
+        if(old != null  ) {
+            cartProducts.remove(old);
+        }
+        if(product.quantity <= 0 ) {
+            return badRequest("Out of stock");
         }
         cartProduct.productId = product.id;
         cartProduct.price = product.price;
         cartProduct.formattedPrice = Utility.getFormattedPrice(product.price);
         cartProduct.discountPrice = product.discountPrice;
-        cartProduct.mainImage = product.mainImage;
+        cartProduct.discountPriceFormatted = Utility.getFormattedPrice(product.discountPrice);
+        cartProduct.mainImage = product.getImage();
         cartProduct.quantity = cartDto.quantity;
         cartProduct.name = product.name;
         cartProducts.add(cartProduct);
+        cartProducts.remove(old);
         cart.items = cartProducts;
         int total = 0;
         int quantity = 0;
         for (CartProduct item : cart.items) {
-            total=total+(int)item.price*item.quantity;
+            total=total+(int)item.discountPrice*item.quantity;
             quantity = quantity+item.quantity;
         }
         cart.productCount = quantity;
@@ -101,22 +108,30 @@ public class CartController extends Controller {
     }
 
 
-    @Security.Authenticated(ActionAuthenticator.class)
+    @Security.Authenticated(SessionAuthenticator.class)
     public Result deleteFromCart(String cartProductId) {
         LOG.info("In deleteFromCart");
         LOG.error("Delete {}",cartProductId);
 
         String userId = request().username();
-        Cart cart = Cart.find.where().eq("user_id",userId).findUnique();
+        Cart cart = Cart.find.where().eq("user_id",Integer.parseInt(userId)).findUnique();
         LOG.error("Cart id  {}",cart.id);
         if(cart == null) {
-            return notFound();
+            return notFound("No cart");
         }
         CartProduct cartProduct = CartProduct.find.where().and(Expr.eq("id",cartProductId),Expr.eq("cart_id",cart.id)).findUnique();
         if(cartProduct != null) {
-            LOG.error("Deleted : {}",cartProduct.delete());
+            LOG.error("Cart products empty?: {}",cart.items.isEmpty());
+            cart.items.remove(cartProduct);
+            LOG.error("Cart products empty?: {}",cart.items.isEmpty());
+            if(cart.items.isEmpty())
+            {
+                cart.delete();
+                LOG.error("All items removed. Deleting cart");
+            }
+            LOG.error("Cart products after delete: {}",Json.toJson(cart));
         } else {
-            LOG.error("Not Deleted");
+            LOG.error("Deletion failed");
         }
 
         int total = 0;
@@ -125,6 +140,7 @@ public class CartController extends Controller {
             total=total+(int)item.price*item.quantity;
             productCount+=item.quantity;
         }
+        LOG.error("Updaing cart with total");
         cart.totalPrice = total;
         cart.productCount = productCount;
         cart.totalPriceFormatted = Utility.getFormattedPrice(total);
@@ -132,11 +148,11 @@ public class CartController extends Controller {
         return Results.ok(Json.toJson(cart));
     }
 
-    @Security.Authenticated(ActionAuthenticator.class)
+    @Security.Authenticated(SessionAuthenticator.class)
     public Result getCart() throws Exception{
         LOG.info("In getCart");
         String userId = request().username();
-        Cart cart = Cart.find.where().eq("user_id",userId).findUnique();
+        Cart cart = Cart.find.where().eq("user_id",Integer.parseInt(userId)).findUnique();
         if(cart != null) {
             return Results.ok(Json.toJson(cart));
         }
@@ -147,11 +163,11 @@ public class CartController extends Controller {
     }
 
 
-    @Security.Authenticated(ActionAuthenticator.class)
+    @Security.Authenticated(SessionAuthenticator.class)
     public Result getCartInfo() throws Exception{
         LOG.info("In getCartInfo");
         String userId = request().username();
-        Cart cart = Cart.find.where().eq("user_id",userId).findUnique();
+        Cart cart = Cart.find.where().eq("user_id",Integer.parseInt(userId)).findUnique();
         if(cart == null) {
             return notFound();
         }

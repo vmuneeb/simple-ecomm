@@ -1,4 +1,32 @@
 GET     /                           controllers.admin.AdminController.index()
 POST    /                           controllers.admin.AdminController.loginAdmin()
-GET    /home                           controllers.admin.AdminController.home()
+GET    /home                          controllers.admin.AdminController.home(search:String?=null)
+GET     /orders                           controllers.admin.OrderController.getOrders(p:Integer?=0,search:String?=null)
+GET     /orders/:id                           controllers.admin.AdminController.order(id:String)
+
+GET    /category                           controllers.admin.CommonController.category()
+GET    /category/:id                           controllers.admin.CommonController.subCategory(id:Long)
+GET    /users                           controllers.admin.AdminController.users(p:Integer?=0)
+GET    /banners                           controllers.admin.CommonController.banners()
+GET    /brands                           controllers.admin.CommonController.brands()
+
+GET    /products                           controllers.admin.AdminController.products(p:Integer?=0,search:String?=null)
+GET    /products/:id                           controllers.admin.AdminController.product(id:Integer)
 GET    /logout                           controllers.admin.AdminController.logout()
+
+
+POST      /products               controllers.admin.AdminController.addProduct()
+
+
+
+POST      /products/:id               controllers.admin.AdminController.updateProduct(id:Long)
+POST      /banner               controllers.admin.CommonController.addBanner()
+POST      /brands               controllers.admin.CommonController.addBrand()
+POST      /categories               controllers.admin.CommonController.addCategory()
+POST      /categories/:id               controllers.admin.CommonController.addSubCategory(id:Long)
+
+DELETE     /banner/:id               controllers.admin.CommonController.deleteBanner(id:String)
+DELETE     /products/:id               controllers.admin.CommonController.deleteProduct(id:String)
+DELETE     /products/brands/:id               controllers.admin.CommonController.deleteBrand(id:String)
+DELETE     /products/categories/:id               controllers.admin.CommonController.deleteCategory(id:String)
+DELETE     /products/subcategories/:id               controllers.admin.CommonController.deleteSubCategory(id:String)

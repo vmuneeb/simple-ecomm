@@ -4,10 +4,11 @@ package models.cart;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.CreatedTimestamp;
+import com.avaje.ebean.annotation.PrivateOwned;
 import com.avaje.ebean.annotation.UpdatedTimestamp;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import models.User;
+import models.user.User;
 import play.data.format.Formats;
 
 import javax.persistence.*;
@@ -34,7 +35,8 @@ public class Cart extends Model{
     public String totalPriceFormatted;
     public String currency;
 
-    @OneToMany(mappedBy = "cart", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+    @PrivateOwned
+    @OneToMany(mappedBy = "cart", cascade=CascadeType.ALL)
     @JsonManagedReference
     public List<CartProduct> items;
 

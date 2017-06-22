@@ -1,9 +1,12 @@
 package dto;
 
+import play.data.validation.Constraints;
+
 /**
  * Created by muneeb on 03/02/17.
  */
 public class ChangePasswordDto {
+    @Constraints.Required
     public String old_password;
 
     public String getOld_password() {
@@ -22,5 +25,6 @@ public class ChangePasswordDto {
         this.new_password = new_password;
     }
 
+    @Constraints.Required
     public String new_password;
 }

@@ -1,26 +1,38 @@
 package dto;
 
+import play.data.validation.Constraints;
+
+import javax.validation.Constraint;
+
+
 /**
  * Created by muneeb on 02/02/17.
  */
 public class OrderDto {
-    private String shipping_type;
-    private String name;
-    private String street;
-    private String house_number;
-    private String city;
-    private String zip;
-    private String email;
-    private String phone;
-    private String note;
 
-    public String getShipping_type() {
-        return shipping_type;
-    }
+    @Constraints.Required
+    public String name;
 
-    public void setShipping_type(String shipping_type) {
-        this.shipping_type = shipping_type;
-    }
+    @Constraints.Required
+    public String building;
+
+    @Constraints.Required
+    public String street;
+
+    @Constraints.Required
+    public String area;
+
+    @Constraints.Required
+    public String city;
+
+    @Constraints.Required
+    @Constraints.Email
+    public String email;
+
+    @Constraints.Required
+    public String phone;
+
+    public String note;
 
     public String getName() {
         return name;
@@ -28,6 +40,14 @@ public class OrderDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
     }
 
     public String getStreet() {
@@ -38,12 +58,12 @@ public class OrderDto {
         this.street = street;
     }
 
-    public String getHouse_number() {
-        return house_number;
+    public String getArea() {
+        return area;
     }
 
-    public void setHouse_number(String house_number) {
-        this.house_number = house_number;
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getCity() {
@@ -52,14 +72,6 @@ public class OrderDto {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
     }
 
     public String getEmail() {
@@ -86,15 +98,14 @@ public class OrderDto {
         this.note = note;
     }
 
+
+
     @Override
     public String toString() {
         return "OrderDto{" +
-                "shipping_type='" + shipping_type + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", street='" + street + '\'' +
-                ", house_number='" + house_number + '\'' +
                 ", city='" + city + '\'' +
-                ", zip='" + zip + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", note='" + note + '\'' +
