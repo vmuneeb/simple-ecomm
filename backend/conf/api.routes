@@ -1,0 +1,47 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /shops                           controllers.api.CommonController.getShops()
+
+GET     /navigation_drawer               controllers.api.CommonController.navigation()
+GET     /banners               controllers.api.CommonController.banners()
+
+
+
+
+
+GET     /products               controllers.api.ProductController.getProductsResult(category:String?=null,subCategory:String?=null,brand:String?=null,search:String?=null,p:Integer?=0)
+
+GET     /products/:id               controllers.api.ProductController.getProduct(id:String)
+
+
+POST /login/email                 controllers.api.UserController.loginUser()
+GET  /logout                           controllers.api.UserController.logout()
+
+POST /users/register                 controllers.api.UserController.registerUser()
+
+GET /users/:id                 controllers.api.UserController.getUserDetails(id:String)
+PUT /users/:id                 controllers.api.UserController.editUserDetails(id:String)
+PUT /users/:id/password                 controllers.api.UserController.changePassword(id:String)
+
+
+POST /cart                 controllers.api.CartController.addToCart()
+
+DELETE /cart/:id                 controllers.api.CartController.deleteFromCart(id:String)
+
+GET /cart                   controllers.api.CartController.getCart()
+
+GET /cart/info                   controllers.api.CartController.getCartInfo()
+
+POST /orders                 controllers.api.OrderController.createOrder()
+
+POST /orders/:id                 controllers.api.OrderController.updateOrder(id:Long)
+
+
+GET /orders                 controllers.api.OrderController.getOrders()
+
+GET /orders/:id                 controllers.api.OrderController.getOrder(id:String)
+
+GET /orders/invoice/:id                 controllers.api.OrderController.getInvoice(id:String)

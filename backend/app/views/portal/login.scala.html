@@ -1,0 +1,121 @@
+@(message: String)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Sign Up | Fortune store dxb</title>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/prettyPhoto.css" rel="stylesheet">
+    <link href="/assets/css/price-range.css" rel="stylesheet">
+    <link href="/assets/css/animate.css" rel="stylesheet">
+    <link href="/assets/css/main.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/manifest.json">
+    <link rel="mask-icon" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+</head><!--/head-->
+
+<style type="text/css">
+    #header,body{
+    background: #EA5D63;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #B24C49, #EA5D63);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #B24C49, #EA5D63); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+</style>
+
+<body>
+<header id="header"><!--header-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="logo pull-left">
+                    <a href="/"><img height="60" width="60" src="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/assets/IMG-20170329-WA0029.jpg" alt=""></a>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="pull-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/signup"><i class="fa fa-lock"></i> Sign Up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header><!--/header-->
+
+
+<section ><!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <h3><i class="fa fa-users fa-4x"></i></h3>
+                            <h2 class="text-center">Login</h2>
+                            <div class="panel-body">
+
+                                @if(message != null){
+                                <div class="text-center">
+                                    <div class="alert alert-danger">
+                                        @message.
+                                    </div>
+                                </div>
+                                }
+
+                                <form class="form" method="post" action="/login">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+
+                                                <input name="email" placeholder="email address" class="form-control" type="email" oninvalid="setCustomValidity('Please enter a valid email address!')" onchange="try{setCustomValidity('')}catch(e){}" required="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-lock color-blue"></i></span>
+
+                                                <input name="password" placeholder="password" class="form-control" type="password"  required="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="btn btn-lg btn-primary btn-block" value="Login" type="submit">
+                                        </div>
+                                    </fieldset>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--/form-->
+
+
+
+<script src="/assets/js/jquery.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery.scrollUp.min.js"></script>
+<script src="/assets/js/price-range.js"></script>
+<script src="/assets/js/jquery.prettyPhoto.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

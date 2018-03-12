@@ -1,0 +1,116 @@
+@(user: models.user.User, cart: models.cart.Cart,categories: List[models.product.Category],
+subCategories: List[models.product.SubCategory],brands: List[models.product.Brand],
+products: List[models.product.Product],param:String,value:String)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<title>Products | Fortune store dxb</title>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/css/prettyPhoto.css" rel="stylesheet">
+    <link href="/assets/css/price-range.css" rel="stylesheet">
+    <link href="/assets/css/animate.css" rel="stylesheet">
+	<link href="/assets/css/main.css" rel="stylesheet">
+	<link href="/assets/css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+	<link rel="shortcut icon" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/manifest.json">
+	<link rel="mask-icon" href="https://s3.ap-south-1.amazonaws.com/fortunestoredxb/favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="theme-color" content="#ffffff">
+</head><!--/head-->
+
+<body>
+
+    @header(user,cart,categories)
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+                    @category(categories,subCategories)
+				</div>
+				
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">Products</h2>
+						@for((product, index) <- products.zipWithIndex) {
+							<div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+								<div class="product-image-wrapper">
+									<a href="/product/@product.id">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<img class="img-responsive" src="@product.getThumpNailImage()" alt="" />
+												@if(product.price > product.discountPrice) {
+												<strike class="discount-price">Price: @product.getPrice() AED</strike>
+												} else{
+                                                <p>&nbsp;</p>
+												}
+												<h2>@product.getDiscountPrice() AED</h2>
+												<p>@product.name</p>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+						}
+
+                        @if(products.size() <= 0 ) {
+                            <div class="text-center" style="min-height: 500px;color:#ddd">
+                                        <span class="glyphicon glyphicon-search fa-3x" aria-hidden="true"></span>
+                                        <p><h3>Sorry, no results found!!!!</h3></p>
+                            </div>
+                        }
+
+					</div><!--features_items-->
+
+                    <div class="container">
+                        <div class="row">
+                            @if(products.size() >= 20 ) {
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button class="btn" data-param="@param" data-value="@value" data-page="1" id="load-more-btn">
+                                        <span class="glyphicon glyphicon-refresh"  aria-hidden="true"></span>
+                                        &nbsp;Load more!
+                                    </button>
+                                </div>
+                            }
+                        </div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!--<footer id="footer">&lt;!&ndash;Footer&ndash;&gt;-->
+		<!---->
+		<!--<div class="footer-bottom">-->
+			<!--<div class="container">-->
+				<!--<div class="row">-->
+					<!--<p class="pull-left">Copyright © 2017 .</p>-->
+					<!--&lt;!&ndash;<p class="pull-right">Designed by <span><a target="_blank" href="http:/www.themeum.com">Themeum</a></span></p>&ndash;&gt;-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!---->
+	<!--</footer>&lt;!&ndash;/Footer&ndash;&gt;-->
+	
+
+  
+    <script src="/assets/js/jquery.js"></script>
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<script src="/assets/js/jquery.scrollUp.min.js"></script>
+	<script src="/assets/js/price-range.js"></script>
+    <script src="/assets/js/jquery.prettyPhoto.js"></script>
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>

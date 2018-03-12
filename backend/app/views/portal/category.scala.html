@@ -1,0 +1,16 @@
+@(categories: List[models.product.Category],subCategories: List[models.product.SubCategory])
+    @for(category <- categories) {
+    <div class="panel panel-default hidden-xs">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a href="/products?category=@category.id">@category.name</a></h3>
+        </div>
+        <ul class="list-group">
+            @for(subCategory <- subCategories) {
+            @if(subCategory.category.id==category.id) {
+            <a class="list-group-item" href="/products?subCategory=@subCategory.id"><span class="sub-category-link" >@subCategory.name</span></a>
+            }
+            }
+        </ul>
+    </div>
+    }
